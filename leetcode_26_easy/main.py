@@ -1,4 +1,4 @@
-#It is a worry solution, but I solve it by c++
+#It is a worry notAGoodSolution.py, but I solve it by c++
 class Solution:
     def removeDuplicates(self, nums) -> int:
         tag = nums[0]-1

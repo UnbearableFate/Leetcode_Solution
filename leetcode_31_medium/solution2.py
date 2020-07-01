@@ -7,26 +7,17 @@ class Solution:
         """
         if len(nums) <= 1:
             return
-
+        maxNum = max(nums)
         for i in range(len(nums)-2 , -1, -1) : #从尾部搜索，试图让 oldHead->x->...变大一点
             oldHeadNum = nums[i]
             ok = False
-            for lb in range(oldHeadNum+1, 10) : # i位置之后有没有比nums[i]刚好大一点的呢
+            for lb in range(oldHeadNum+1, maxNum+1) : # i位置之后有没有比nums[i]刚好大一点的呢
                 try:
                     ii = nums.index(lb, i, len(nums))
                     temp = nums[ii]
                     nums[ii] = nums[i]
                     nums[i] = temp
-                    #开始计数排序
-                    ctDict = dict()
-                    for j in range(10):
-                        ctDict[j] = nums[i+1:].count(j)
-                    index = i+1
-                    for n, ct in ctDict.items():
-                        for k in range(ct):
-                            nums[index] = n
-                            index = index+1
-                    #基数排序完成
+                    nums[i+1:] = sorted(nums[i+1:])
                     ok = True
                     break
                 except:
@@ -38,4 +29,4 @@ class Solution:
 
 if __name__ == '__main__':
     ss = Solution()
-    print(ss.nextPermutation([1,3,2]))
+    print(ss.nextPermutation([16,27,25,23,25,16,12,9,1,2,7,20,19,23,16,0,6,22,16,11,8,27,9,2,20,2,13,7,25,29,12,12,18,29,27,13,16,1,22,9,3,21,29,14,7,8,14,5,0,23,16,1,20]))
