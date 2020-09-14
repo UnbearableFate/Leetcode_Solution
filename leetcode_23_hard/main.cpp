@@ -1,4 +1,5 @@
 #include<vector>
+#include<queue>
 #include <algorithm>
 using namespace std;
 
@@ -30,10 +31,17 @@ bool myLessFunc(ListNode* a, ListNode* b) {
     }
 }
 
-ListNode* search()
+bool myGreater(vector<ListNode*>::iterator a, vector<ListNode*>::iterator b) {
+    if((*a)->val > (*b)->val) {
+        return true;
+    } else {
+        return false;
+    }
+} 
 
 class Solution {
 public:
+    priority_queue <vector<ListNode*>::iterator, vector<vector<ListNode*>::iterator>, myGreater> qq;
     ListNode* mergeKLists(vector<ListNode*>& lists) {
         sort(lists.begin(), lists.end(), myLessFunc);
 
