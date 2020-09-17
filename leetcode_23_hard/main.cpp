@@ -1,3 +1,4 @@
+#include<iostream>
 #include<vector>
 #include<queue>
 #include <algorithm>
@@ -11,45 +12,46 @@ struct ListNode {
       ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
  
-ListNode* getMinHead(vector<ListNode*>& lists) {
-    int minVal = -10000;
-    ListNode* minHead;
-    for (auto p : lists) {
-        if( p->val < minVal) {
-            minHead = p;
-            minVal = p->val;
-        }
+class myGreater {
+public:
+    bool operator()(ListNode* a, ListNode* b) {
+        return a->val > b->val;
     }
-    return minHead;
-}
-
-bool myLessFunc(ListNode* a, ListNode* b) {
-    if (a->val < b-> val) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-bool myGreater(vector<ListNode*>::iterator a, vector<ListNode*>::iterator b) {
-    if((*a)->val > (*b)->val) {
-        return true;
-    } else {
-        return false;
-    }
-} 
+};
 
 class Solution {
 public:
-    priority_queue <vector<ListNode*>::iterator, vector<vector<ListNode*>::iterator>, myGreater> qq;
+    priority_queue <ListNode*,vector<ListNode*>, myGreater> qq;
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        sort(lists.begin(), lists.end(), myLessFunc);
-
+        auto res = new ListNode();
+        ListNode *p = res;
+        for (auto li : lists ) {
+            qq.push(li);
+        }
+        while(!qq.empty()){
+           p->next = qq.top();
+           qq.pop();
+           if (p->next->next != nullptr) {
+               qq.push(p->next->next);
+           }
+           p->next->next = nullptr;
+           p = p->next;
+        }
         
-        return nullptr;
+        return res->next;
     }
 };
 
 int main() {
+    auto ss = Solution();
+    auto a1 = new ListNode(1,new ListNode(4,new ListNode(5)));
+    auto a2 = new ListNode(1,new ListNode(3,new ListNode(4)));
+    auto a3 = new ListNode(2,new ListNode(6));
+    vector<ListNode *> bb = {a1, a2, a3};
+    auto rr = ss.mergeKLists(bb);
+    while(rr != nullptr) {
+        cout<< rr->val <<endl;
+        rr = rr->next;
+    }
     return 0;
 }
